@@ -60,6 +60,22 @@
   }
   @keyframes pulse{ 0%{ transform:scale(.4); opacity:.6;} 100%{ transform:scale(2.2); opacity:0;} }
 
+  /* ---------- bouton musique flottant ---------- */
+  .fab-music{
+    position:fixed; left:18px; bottom:18px; z-index:50;
+    display:flex; align-items:center; justify-content:center;
+    width:44px; height:44px; border-radius:50%;
+    background:var(--brun-nuit); color:var(--or-clair); border:1px solid var(--or);
+    cursor:pointer; font-size:1.05rem; box-shadow:0 14px 30px -10px rgba(36,18,9,.55);
+  }
+  .fab-music .bars{ display:flex; align-items:flex-end; gap:2px; height:14px; }
+  .fab-music .bars span{ width:3px; background:var(--or-clair); border-radius:1px; height:4px; }
+  .fab-music.playing .bars span{ animation:musicBar .9s ease-in-out infinite; }
+  .fab-music .bars span:nth-child(1){ animation-delay:0s; }
+  .fab-music .bars span:nth-child(2){ animation-delay:.2s; }
+  .fab-music .bars span:nth-child(3){ animation-delay:.4s; }
+  @keyframes musicBar{ 0%,100%{ height:4px; } 50%{ height:14px; } }
+
   /* ---------- hero ---------- */
   .hero{
     min-height:100svh; position:relative; display:flex; flex-direction:column; align-items:center;
@@ -196,6 +212,11 @@
   <span class="pulse-dot" aria-hidden="true"></span> En direct le 29 Août
 </a>
 
+<button type="button" class="fab-music" id="music-btn" aria-label="Jouer la musique" aria-pressed="false">
+  <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
+</button>
+<audio id="bg-music" src="audio/iyawo-mi.mp3" loop preload="none"></audio>
+
 <section class="hero">
   <div class="hero-bg"><img src="images/photo-3.jpg" alt=""></div>
   <span class="live-badge"><span class="pulse-dot" aria-hidden="true"></span> Diffusion en direct</span>
@@ -243,16 +264,16 @@
     </div>
     <div class="live-body">
       <div class="live-row">
-        <div><span class="lbl">ID de réunion</span><span class="val" id="zoom-id">–</span></div>
+        <div><span class="lbl">ID de réunion</span><span class="val" id="teams-id">–</span></div>
       </div>
       <div class="live-row">
-        <div><span class="lbl">Code secret</span><span class="val" id="zoom-code">–</span></div>
+        <div><span class="lbl">Code secret</span><span class="val" id="teams-code">–</span></div>
       </div>
       <a href="#" class="join-btn" id="join-btn" target="_blank" rel="noopener">
         <span class="pulse-dot" aria-hidden="true"></span> Rejoindre le direct
       </a>
       <div class="live-note">En cliquant sur « Rejoindre le direct », vous entrez directement — aucun code à saisir.
-        L'ID et le code ci-dessus ne servent qu'en secours si vous ouvrez l'application Zoom manuellement.</div>
+        L'ID et le code ci-dessus ne servent qu'en secours si vous ouvrez l'application Teams manuellement.</div>
       <div class="live-note">Micros et caméras des invités seront coupés — installez-vous, il n'y a rien à faire, juste à profiter du moment.</div>
     </div>
   </div>
@@ -324,14 +345,37 @@
     tick(); setInterval(tick, 1000);
   })();
 
-  // ---- infos Zoom ----
+  // ---- musique de fond ----
   (function(){
-    const ZOOM_LINK = "https://us05web.zoom.us/j/4120441486?pwd=9EbkSaVSaA4Yn6arwodhkNC5gr1IwA.1&omn=86441563947";
-    const MEETING_ID = "412 044 1486";
-    const PASSCODE = "JoMira29";
-    document.getElementById('zoom-id').textContent = MEETING_ID;
-    document.getElementById('zoom-code').textContent = PASSCODE;
-    document.getElementById('join-btn').href = ZOOM_LINK;
+    const btn = document.getElementById('music-btn');
+    const audio = document.getElementById('bg-music');
+    audio.addEventListener('loadedmetadata', function(){
+      if(audio.currentTime === 0) audio.currentTime = 20;
+    });
+    btn.addEventListener('click', function(){
+      if(audio.paused){
+        if(audio.currentTime === 0) audio.currentTime = 20;
+        audio.play();
+        btn.classList.add('playing');
+        btn.setAttribute('aria-pressed', 'true');
+        btn.setAttribute('aria-label', 'Mettre la musique en pause');
+      } else {
+        audio.pause();
+        btn.classList.remove('playing');
+        btn.setAttribute('aria-pressed', 'false');
+        btn.setAttribute('aria-label', 'Jouer la musique');
+      }
+    });
+  })();
+
+  // ---- infos Teams ----
+  (function(){
+    const TEAMS_LINK = "REMPLACER_PAR_LE_LIEN_TEAMS"; // ex: https://teams.live.com/meet/...
+    const MEETING_ID = "REMPLACER_PAR_L_ID";
+    const PASSCODE = "REMPLACER_PAR_LE_CODE";
+    document.getElementById('teams-id').textContent = MEETING_ID;
+    document.getElementById('teams-code').textContent = PASSCODE;
+    document.getElementById('join-btn').href = TEAMS_LINK;
   })();
 
   // ---- diaporama ----
