@@ -199,6 +199,49 @@
   .dot{ width:7px; height:7px; border-radius:50%; background:var(--or-clair); cursor:pointer; border:none; padding:0; }
   .dot.active{ background:var(--terracotta-deep); }
 
+  /* ---------- effet "wow" au clic Rejoindre ---------- */
+  .wow-overlay{
+    position:fixed; inset:0; z-index:200; pointer-events:none; overflow:hidden;
+    display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .35s ease;
+  }
+  .wow-overlay.show{ opacity:1; }
+  .wow-overlay .burst{
+    font-size:3.2rem; opacity:0; transform:scale(.4);
+    animation:wowBurst 1s cubic-bezier(.2,.8,.3,1) forwards;
+  }
+  @keyframes wowBurst{
+    0%{ opacity:0; transform:scale(.3) rotate(-8deg); }
+    35%{ opacity:1; transform:scale(1.15) rotate(2deg); }
+    70%{ opacity:1; transform:scale(1) rotate(0deg); }
+    100%{ opacity:0; transform:scale(1.05) rotate(0deg); }
+  }
+  .wow-piece{
+    position:absolute; top:50%; left:50%; font-size:1.6rem; opacity:0;
+    animation:wowFly 1.1s ease-out forwards;
+  }
+  @keyframes wowFly{
+    0%{ opacity:0; transform:translate(-50%,-50%) scale(.3); }
+    20%{ opacity:1; }
+    100%{ opacity:0; transform:translate(calc(-50% + var(--fx,0px)), calc(-50% + var(--fy,0px))) scale(1) rotate(var(--fr,20deg)); }
+  }
+
+  /* ---------- révélation fleurie de la galerie ---------- */
+  .gallery.bloom .gallery-head{ animation:bloomIn .9s ease forwards; }
+  .gallery.bloom .slider{ animation:bloomIn 1s ease .15s forwards; }
+  @keyframes bloomIn{
+    0%{ opacity:0; transform:translateY(26px) scale(.94); }
+    100%{ opacity:1; transform:translateY(0) scale(1); }
+  }
+  .petal{
+    position:fixed; top:-30px; z-index:150; pointer-events:none; font-size:1.3rem;
+    animation:petalFall linear forwards;
+  }
+  @keyframes petalFall{
+    0%{ transform:translateY(0) rotate(0deg); opacity:0; }
+    10%{ opacity:.9; }
+    100%{ transform:translateY(100vh) rotate(340deg); opacity:0; }
+  }
+
   footer{ text-align:center; padding:5vh 6vw 6vh; background:var(--brun-nuit); color:var(--or-clair); }
   footer .foot-names{ font-family:'Playfair Display', serif; font-style:italic; font-size:1.3rem; color:var(--ivoire); margin-bottom:.4rem; }
   footer .foot-date{ font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; opacity:.8; }
@@ -215,7 +258,11 @@
 <button type="button" class="fab-music" id="music-btn" aria-label="Jouer la musique" aria-pressed="false">
   <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
 </button>
-<audio id="bg-music" src="audio/iyawo-mi.mp3" loop preload="none"></audio>
+<audio id="bg-music" src="audio/wa-video-son.mp3" loop preload="none"></audio>
+
+<div class="wow-overlay" id="wow-overlay" aria-hidden="true">
+  <div class="burst">💍❤️💍</div>
+</div>
 
 <section class="hero">
   <div class="hero-bg"><img src="images/photo-3.jpg" alt=""></div>
@@ -279,7 +326,7 @@
   </div>
 </section>
 
-<section class="gallery">
+<section class="gallery" id="gallery">
   <div class="gallery-head">
     <span class="kicker">Notre histoire</span>
     <h2>En images</h2>
@@ -349,12 +396,8 @@
   (function(){
     const btn = document.getElementById('music-btn');
     const audio = document.getElementById('bg-music');
-    audio.addEventListener('loadedmetadata', function(){
-      if(audio.currentTime === 0) audio.currentTime = 20;
-    });
     btn.addEventListener('click', function(){
       if(audio.paused){
-        if(audio.currentTime === 0) audio.currentTime = 20;
         audio.play();
         btn.classList.add('playing');
         btn.setAttribute('aria-pressed', 'true');
@@ -376,6 +419,70 @@
     document.getElementById('teams-id').textContent = MEETING_ID;
     document.getElementById('teams-code').textContent = PASSCODE;
     document.getElementById('join-btn').href = TEAMS_LINK;
+
+    // ---- effet "wow" + révélation photos + musique au clic ----
+    const joinBtn = document.getElementById('join-btn');
+    const overlay = document.getElementById('wow-overlay');
+    const gallery = document.getElementById('gallery');
+    const music = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-btn');
+    const PETALS = ['🌸','🌺','🌼'];
+
+    function spawnPetals(){
+      for(let i=0;i<18;i++){
+        const p = document.createElement('div');
+        p.className = 'petal';
+        p.textContent = PETALS[Math.floor(Math.random()*PETALS.length)];
+        p.style.left = Math.random()*100 + 'vw';
+        p.style.animationDuration = (2.6 + Math.random()*2) + 's';
+        p.style.animationDelay = (Math.random()*.6) + 's';
+        document.body.appendChild(p);
+        setTimeout(()=> p.remove(), 5200);
+      }
+    }
+    function spawnBurst(){
+      const pieces = ['💍','❤️','✨','💍','🤍'];
+      pieces.forEach((emoji, i)=>{
+        const el = document.createElement('div');
+        el.className = 'wow-piece';
+        el.textContent = emoji;
+        const angle = (i / pieces.length) * Math.PI * 2;
+        el.style.setProperty('--fx', Math.cos(angle)*120 + 'px');
+        el.style.setProperty('--fy', Math.sin(angle)*120 + 'px');
+        el.style.setProperty('--fr', (Math.random()*40-20) + 'deg');
+        overlay.appendChild(el);
+        setTimeout(()=> el.remove(), 1300);
+      });
+    }
+
+    joinBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      overlay.classList.add('show');
+      spawnBurst();
+
+      if(music.paused){
+        music.play();
+        musicBtn.classList.add('playing');
+        musicBtn.setAttribute('aria-pressed', 'true');
+        musicBtn.setAttribute('aria-label', 'Mettre la musique en pause');
+      }
+
+      setTimeout(()=>{
+        gallery.classList.add('bloom');
+        gallery.scrollIntoView({ behavior:'smooth', block:'start' });
+        spawnPetals();
+      }, 450);
+
+      setTimeout(()=>{
+        overlay.classList.remove('show');
+      }, 1300);
+
+      setTimeout(()=>{
+        if(TEAMS_LINK && TEAMS_LINK.indexOf('REMPLACER') !== 0){
+          window.open(TEAMS_LINK, '_blank', 'noopener');
+        }
+      }, 1600);
+    });
   })();
 
   // ---- diaporama ----
