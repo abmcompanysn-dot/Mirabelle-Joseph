@@ -86,6 +86,16 @@
   .fab-music .bars span:nth-child(3){ animation-delay:.4s; }
   @keyframes musicBar{ 0%,100%{ height:4px; } 50%{ height:14px; } }
 
+  /* ---------- bouton langue flottant ---------- */
+  .fab-lang{
+    position:fixed; left:18px; top:18px; z-index:50;
+    display:flex; align-items:center; justify-content:center;
+    min-width:44px; height:36px; padding:0 .8rem; border-radius:999px;
+    background:var(--brun-nuit); color:var(--or-clair); border:1px solid var(--or);
+    cursor:pointer; font-family:'Jost',sans-serif; font-size:.68rem; letter-spacing:.1em; font-weight:500;
+    box-shadow:0 14px 30px -10px rgba(36,18,9,.55);
+  }
+
   /* ---------- hero ---------- */
   .hero{
     min-height:100svh; position:relative; display:flex; flex-direction:column; align-items:center;
@@ -262,12 +272,14 @@
 <div id="ring-field"></div>
 
 <a href="#live" class="fab-live" aria-label="Aller à l'accès au live">
-  <span class="pulse-dot" aria-hidden="true"></span> En direct le 29 Août
+  <span class="pulse-dot" aria-hidden="true"></span> <span data-i18n="fabLive">En direct le 29 Août</span>
 </a>
 
 <button type="button" class="fab-music" id="music-btn" aria-label="Jouer la musique" aria-pressed="false">
   <span class="bars" aria-hidden="true"><span></span><span></span><span></span></span>
 </button>
+
+<button type="button" class="fab-lang" id="lang-btn" aria-label="Switch language / Changer de langue">EN</button>
 <audio id="bg-music" src="audio/wa-video-son.mp3" loop preload="none"></audio>
 
 <div class="wow-overlay" id="wow-overlay" aria-hidden="true">
@@ -276,32 +288,32 @@
 
 <section class="hero">
   <div class="hero-bg"><img src="images/photo-3.jpg" alt=""></div>
-  <span class="live-badge"><span class="pulse-dot" aria-hidden="true"></span> Diffusion en direct</span>
-  <p class="eyebrow">Noce à Canaan</p>
+  <span class="live-badge"><span class="pulse-dot" aria-hidden="true"></span> <span data-i18n="heroLiveBadge">Diffusion en direct</span></span>
+  <p class="eyebrow" data-i18n="heroEyebrow">Noce à Canaan</p>
   <h1 class="names">Mirabelle <span class="amp">&amp;</span> Joseph</h1>
-  <p class="verse">« Cana en Galilée » — Jean 2 · 29 Août</p>
+  <p class="verse" data-i18n="heroVerse">« Cana en Galilée » — Jean 2 · 29 Août</p>
 
   <div class="countdown" id="countdown">
-    <div class="cd-unit"><div class="cd-num" id="cd-days">–</div><div class="cd-label">Jours</div></div>
+    <div class="cd-unit"><div class="cd-num" id="cd-days">–</div><div class="cd-label" data-i18n="cdDays">Jours</div></div>
     <div class="cd-sep">:</div>
-    <div class="cd-unit"><div class="cd-num" id="cd-hours">–</div><div class="cd-label">Heures</div></div>
+    <div class="cd-unit"><div class="cd-num" id="cd-hours">–</div><div class="cd-label" data-i18n="cdHours">Heures</div></div>
     <div class="cd-sep">:</div>
-    <div class="cd-unit"><div class="cd-num" id="cd-min">–</div><div class="cd-label">Min</div></div>
+    <div class="cd-unit"><div class="cd-num" id="cd-min">–</div><div class="cd-label" data-i18n="cdMin">Min</div></div>
     <div class="cd-sep">:</div>
-    <div class="cd-unit"><div class="cd-num" id="cd-sec">–</div><div class="cd-label">Sec</div></div>
+    <div class="cd-unit"><div class="cd-num" id="cd-sec">–</div><div class="cd-label" data-i18n="cdSec">Sec</div></div>
   </div>
 
-  <a href="#live" class="hero-cta" id="hero-join-btn">Rejoindre le direct →</a>
+  <a href="#live" class="hero-cta" id="hero-join-btn" data-i18n="heroCta">Rejoindre le direct →</a>
 </section>
 
 <section class="message">
-  <span class="kicker">Un mot pour vous</span>
-  <p>Le 29 août, nous célébrons notre Noce à Canaan et nous nous disons « oui ».
+  <span class="kicker" data-i18n="msgKicker">Un mot pour vous</span>
+  <p data-i18n="msgP1">Le 29 août, nous célébrons notre Noce à Canaan et nous nous disons « oui ».
      Nous aurions aimé vous avoir tous auprès de nous, et même à distance, nous
      tenions à vous faire vivre ce moment avec nous, en direct.</p>
-  <p>Cette page vous accompagnera ce jour-là : vous y retrouverez l'accès à la
+  <p data-i18n="msgP2">Cette page vous accompagnera ce jour-là : vous y retrouverez l'accès à la
      retransmission ainsi que quelques images de notre histoire.</p>
-  <div class="signature">Avec tout notre amour — Mirabelle &amp; Joseph</div>
+  <div class="signature" data-i18n="signature">Avec tout notre amour — Mirabelle &amp; Joseph</div>
 </section>
 
 <section class="mosaic">
@@ -315,31 +327,31 @@
 <section class="live-section" id="live">
   <div class="live-wrap">
     <div class="live-top">
-      <span class="live-badge-lg"><span class="pulse-dot" aria-hidden="true"></span> En direct</span>
-      <h2 class="live-title">Suivre la cérémonie</h2>
-      <p class="live-sub">29 Août — où que vous soyez</p>
+      <span class="live-badge-lg"><span class="pulse-dot" aria-hidden="true"></span> <span data-i18n="liveBadgeLg">En direct</span></span>
+      <h2 class="live-title" data-i18n="liveTitle">Suivre la cérémonie</h2>
+      <p class="live-sub" data-i18n="liveSub">29 Août — où que vous soyez</p>
     </div>
     <div class="live-body">
       <div class="live-row">
-        <div><span class="lbl">ID de réunion</span><span class="val" id="teams-id">–</span></div>
+        <div><span class="lbl" data-i18n="lblMeetingId">ID de réunion</span><span class="val" id="teams-id">–</span></div>
       </div>
       <div class="live-row">
-        <div><span class="lbl">Code secret</span><span class="val" id="teams-code">–</span></div>
+        <div><span class="lbl" data-i18n="lblPasscode">Code secret</span><span class="val" id="teams-code">–</span></div>
       </div>
       <a href="#" class="join-btn" id="join-btn" target="_blank" rel="noopener">
-        <span class="pulse-dot" aria-hidden="true"></span> Rejoindre le direct
+        <span class="pulse-dot" aria-hidden="true"></span> <span data-i18n="joinBtnLabel">Rejoindre le direct</span>
       </a>
-      <div class="live-note">En cliquant sur « Rejoindre le direct », vous entrez directement — aucun code à saisir.
+      <div class="live-note" data-i18n="liveNote1">En cliquant sur « Rejoindre le direct », vous entrez directement — aucun code à saisir.
         L'ID et le code ci-dessus ne servent qu'en secours si vous ouvrez l'application Teams manuellement.</div>
-      <div class="live-note">Micros et caméras des invités seront coupés — installez-vous, il n'y a rien à faire, juste à profiter du moment.</div>
+      <div class="live-note" data-i18n="liveNote2">Micros et caméras des invités seront coupés — installez-vous, il n'y a rien à faire, juste à profiter du moment.</div>
     </div>
   </div>
 </section>
 
 <section class="gallery" id="gallery">
   <div class="gallery-head">
-    <span class="kicker">Notre histoire</span>
-    <h2>En images</h2>
+    <span class="kicker" data-i18n="galleryKicker">Notre histoire</span>
+    <h2 data-i18n="galleryH2">En images</h2>
   </div>
   <div class="slider" id="slider">
     <div class="slide active"><img src="images/photo-1.jpg" alt="Mirabelle et Joseph"><div class="slide-caption">Mirabelle &amp; Joseph</div></div>
@@ -355,7 +367,7 @@
 
 <footer>
   <div class="foot-names">Mirabelle &amp; Joseph</div>
-  <div class="foot-date">Noce à Canaan · 29 Août</div>
+  <div class="foot-date" data-i18n="footDate">Noce à Canaan · 29 Août</div>
 </footer>
 
 <script>
@@ -400,6 +412,72 @@
       document.getElementById('cd-sec').textContent = String(s).padStart(2,'0');
     }
     tick(); setInterval(tick, 1000);
+  })();
+
+  // ---- langue FR / EN ----
+  (function(){
+    const translations = {
+      fr: {
+        fabLive: "En direct le 29 Août",
+        heroLiveBadge: "Diffusion en direct",
+        heroEyebrow: "Noce à Canaan",
+        heroVerse: "« Cana en Galilée » — Jean 2 · 29 Août",
+        cdDays: "Jours", cdHours: "Heures", cdMin: "Min", cdSec: "Sec",
+        heroCta: "Rejoindre le direct →",
+        msgKicker: "Un mot pour vous",
+        msgP1: "Le 29 août, nous célébrons notre Noce à Canaan et nous nous disons « oui ». Nous aurions aimé vous avoir tous auprès de nous, et même à distance, nous tenions à vous faire vivre ce moment avec nous, en direct.",
+        msgP2: "Cette page vous accompagnera ce jour-là : vous y retrouverez l'accès à la retransmission ainsi que quelques images de notre histoire.",
+        signature: "Avec tout notre amour — Mirabelle & Joseph",
+        liveBadgeLg: "En direct",
+        liveTitle: "Suivre la cérémonie",
+        liveSub: "29 Août — où que vous soyez",
+        lblMeetingId: "ID de réunion",
+        lblPasscode: "Code secret",
+        joinBtnLabel: "Rejoindre le direct",
+        liveNote1: "En cliquant sur « Rejoindre le direct », vous entrez directement — aucun code à saisir. L'ID et le code ci-dessus ne servent qu'en secours si vous ouvrez l'application Teams manuellement.",
+        liveNote2: "Micros et caméras des invités seront coupés — installez-vous, il n'y a rien à faire, juste à profiter du moment.",
+        galleryKicker: "Notre histoire",
+        galleryH2: "En images",
+        footDate: "Noce à Canaan · 29 Août"
+      },
+      en: {
+        fabLive: "Live on August 29",
+        heroLiveBadge: "Live broadcast",
+        heroEyebrow: "Wedding at Cana",
+        heroVerse: "“Cana in Galilee” — John 2 · August 29",
+        cdDays: "Days", cdHours: "Hours", cdMin: "Min", cdSec: "Sec",
+        heroCta: "Join the livestream →",
+        msgKicker: "A word for you",
+        msgP1: "On August 29, we celebrate our Wedding at Cana and say “I do.” We wish we could have had you all with us, and even from afar, we wanted you to experience this moment with us, live.",
+        msgP2: "This page will be with you that day: you'll find access to the livestream here, along with a few glimpses of our story.",
+        signature: "With all our love — Mirabelle & Joseph",
+        liveBadgeLg: "Live",
+        liveTitle: "Follow the ceremony",
+        liveSub: "August 29 — wherever you are",
+        lblMeetingId: "Meeting ID",
+        lblPasscode: "Passcode",
+        joinBtnLabel: "Join the livestream",
+        liveNote1: "By clicking “Join the livestream,” you'll enter directly — no code needed. The ID and passcode above are only a backup if you open the Teams app manually.",
+        liveNote2: "Guests' mics and cameras will be off — sit back, there's nothing to do, just enjoy the moment.",
+        galleryKicker: "Our story",
+        galleryH2: "In pictures",
+        footDate: "Wedding at Cana · August 29"
+      }
+    };
+    const langBtn = document.getElementById('lang-btn');
+    function setLang(lang){
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(function(el){
+        const key = el.getAttribute('data-i18n');
+        if(translations[lang][key] != null) el.textContent = translations[lang][key];
+      });
+      langBtn.textContent = lang === 'fr' ? 'EN' : 'FR';
+      localStorage.setItem('site-lang', lang);
+    }
+    langBtn.addEventListener('click', function(){
+      setLang(document.documentElement.lang === 'fr' ? 'en' : 'fr');
+    });
+    setLang(localStorage.getItem('site-lang') || 'fr');
   })();
 
   // ---- musique de fond ----
