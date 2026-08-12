@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mirabelle &amp; Joseph — Noce à Canaan · En Direct le 29 Août</title>
+<meta name="description" content="Mirabelle &amp; Joseph célèbrent leur Noce à Canaan le 29 Août — suivez la cérémonie en direct.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mirabelle &amp; Joseph — Noce à Canaan · En Direct le 29 Août">
+<meta property="og:description" content="Suivez notre mariage en direct le 29 Août, où que vous soyez.">
+<meta property="og:image" content="https://mj.abmcy.com/images/photo-3.jpg">
+<meta property="og:url" content="https://mj.abmcy.com">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mirabelle &amp; Joseph — Noce à Canaan · En Direct le 29 Août">
+<meta name="twitter:description" content="Suivez notre mariage en direct le 29 Août, où que vous soyez.">
+<meta name="twitter:image" content="https://mj.abmcy.com/images/photo-3.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -281,7 +291,7 @@
     <div class="cd-unit"><div class="cd-num" id="cd-sec">–</div><div class="cd-label">Sec</div></div>
   </div>
 
-  <a href="#live" class="hero-cta">Rejoindre le direct →</a>
+  <a href="#live" class="hero-cta" id="hero-join-btn">Rejoindre le direct →</a>
 </section>
 
 <section class="message">
@@ -420,8 +430,8 @@
     document.getElementById('teams-code').textContent = PASSCODE;
     document.getElementById('join-btn').href = TEAMS_LINK;
 
-    // ---- effet "wow" + révélation photos + musique au clic ----
-    const joinBtn = document.getElementById('join-btn');
+    // ---- effet "wow" + révélation photos + musique au clic sur le premier bouton du site ----
+    const heroJoinBtn = document.getElementById('hero-join-btn');
     const overlay = document.getElementById('wow-overlay');
     const gallery = document.getElementById('gallery');
     const music = document.getElementById('bg-music');
@@ -455,7 +465,7 @@
       });
     }
 
-    joinBtn.addEventListener('click', function(e){
+    heroJoinBtn.addEventListener('click', function(e){
       e.preventDefault();
       overlay.classList.add('show');
       spawnBurst();
